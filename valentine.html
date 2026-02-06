@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Be My Valentine?</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    .card {
+      background: rgba(255,255,255,0.2);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      max-width: 420px;
+      width: 90%;
+      z-index: 10;
+      position: relative;
+    }
+
+    h1 { font-size: 2.1rem; margin-bottom: 10px; }
+    p { font-size: 1.1rem; margin-bottom: 25px; }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+    }
+
+    button {
+      font-size: 1.1rem;
+      padding: 12px 26px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    #yesBtn {
+      background: white;
+      color: #ff4d6d;
+      font-weight: bold;
+    }
+
+    #yesBtn:hover { transform: scale(1.1); }
+
+    #noBtn {
+      background: #ff4d6d;
+      color: white;
+      position: relative; /* start normally */
+    }
+
+    .message {
+      margin-top: 25px;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .wrong-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4rem;
+      font-weight: bold;
+      color: red;
+      z-index: 50;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrong-overlay" id="wrongOverlay">❌ WRONG! ❌</div>
+
+  <div class="card">
+    <p>Drew Smasal would love to know… 👀</p>
+    <h1>Ellison Sims, will you be my Valentine? 💘</h1>
+    <p>You know what to choose</p>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No 🙄</button>
+    </div>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <audio id="music" src="heartbeat.mp3"></audio>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+    const wrongOverlay = document.getElementById("wrongOverlay");
+    const music = document.getElementById("music");
+
+    // Move NO button only after hover
+    function moveNoButton() {
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 200 - 100;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+      wrongOverlay.style.display = "flex";
+      setTimeout(() => { wrongOverlay.style.display = "none"; }, 800);
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+      message.textContent = "💖 Congratulations. Best decision of your life. 💖";
+      music.play();
+    });
+
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+      heart.style.fontSize = (16 + Math.random() * 20) + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+
+</body>
+</html>
